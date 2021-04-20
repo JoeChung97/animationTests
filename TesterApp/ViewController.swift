@@ -93,11 +93,11 @@ class ViewController: UIViewController {
     }
     
     @objc private func slideUp() {
-        pullUpMenu.show()
+        //pullUpMenu.show()
     }
     
     @objc private func slideDown() {
-        pullUpMenu.hide()
+        //pullUpMenu.hide()
     }
     
     @objc func buttonAction(sender: UIButton!) {
