@@ -30,10 +30,13 @@ extension State {
 
 public class PullUpMenuView: UIView {
     
-    private var layout = true
+    //Constant Properties
     private let PADDING: CGFloat = 10
     private let CORNER_RADIUS: CGFloat = 15
     private let OPACITY: Float = 0.8
+    
+    //State variables
+    private var layout = true
     private var animationProgress: CGFloat = 0.0
     private var currentState: State = .open
     

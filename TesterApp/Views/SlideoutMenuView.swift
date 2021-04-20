@@ -12,12 +12,34 @@ protocol SlideoutMenuDelegate: class {
     func menuItemSelected(index: Int)
 }
 
+private enum State {
+    case open
+    case closed
+}
+
+extension State {
+    var opposite: State {
+        switch self {
+        case .open:
+            return .closed
+        case .closed:
+            return .open
+        }
+    }
+}
+
 public class SlideoutMenuView: UIView {
     
-    private var layout = true
     private let PADDING: CGFloat = 10
     
     weak var delegate: SlideoutMenuDelegate?
+    
+    private var layout = true
+    private var animationProgress: CGFloat = 0.0
+    private var currentState: State = .closed
+    
+    private var panGestureRecognizer: InstantPanGestureRecognizer!
+    private var transitionAnimator: UIViewPropertyAnimator!
     
     private var tableView: UITableView!
     private var elements: [String] = []
@@ -40,6 +62,9 @@ public class SlideoutMenuView: UIView {
             self.backgroundColor = UIColor(red: 3/255, green: 252/255, blue: 182/255, alpha: 1)
             self.clipsToBounds = true
             
+            panGestureRecognizer = InstantPanGestureRecognizer(target: self, action: #selector(viewPanned))
+            self.addGestureRecognizer(panGestureRecognizer)
+            
             let titleLabel = UILabel(frame: CGRect(x: PADDING, y: PADDING, width: self.bounds.width - (PADDING * 2), height: 25))
             titleLabel.text = "Menu Title"
             titleLabel.textAlignment = .center
@@ -55,6 +80,39 @@ public class SlideoutMenuView: UIView {
             tableView.reloadData()
         }
         
+    }
+    
+    @objc private func viewPanned(recognizer: InstantPanGestureRecognizer) {
+        switch recognizer.state {
+        case .began:
+            toggle()
+            animationProgress = transitionAnimator.fractionComplete
+            transitionAnimator.pauseAnimation()
+        case .changed:
+            let translation = recognizer.translation(in: self)
+            var fraction = translation.x / self.frame.width
+            if currentState == .open { fraction *= -1 }
+            if transitionAnimator.isReversed { fraction *= -1 }
+            transitionAnimator.fractionComplete = fraction + animationProgress
+        case .ended:
+            let xVelocity = recognizer.velocity(in: self).x
+            let shouldClose = xVelocity < 0
+            if(xVelocity == 0) {
+                transitionAnimator.continueAnimation(withTimingParameters: nil, durationFactor: 0)
+                break
+            }
+            switch currentState {
+            case .open:
+                if !shouldClose && !transitionAnimator.isReversed { transitionAnimator.isReversed = !transitionAnimator.isReversed }
+                if shouldClose && transitionAnimator.isReversed { transitionAnimator.isReversed = !transitionAnimator.isReversed }
+            case .closed:
+                if shouldClose && !transitionAnimator.isReversed { transitionAnimator.isReversed = !transitionAnimator.isReversed }
+                if !shouldClose && transitionAnimator.isReversed { transitionAnimator.isReversed = !transitionAnimator.isReversed }
+            }
+            transitionAnimator.continueAnimation(withTimingParameters: nil, durationFactor: 0)
+        default:
+            break
+        }
     }
     
     public func beginBubbles() {
@@ -88,7 +146,7 @@ public class SlideoutMenuView: UIView {
         })
     }
     
-    public func toggle() {
+    /*public func toggle() {
         if(self.frame.minX == 0) {
             UIView.animate(withDuration: 0.25, animations: {
                 self.frame = CGRect(x: self.frame.width * -1, y: self.PADDING, width: self.frame.width, height: self.frame.height)
@@ -101,6 +159,29 @@ public class SlideoutMenuView: UIView {
                 //self.window?.frame = CGRect(x: self.frame.width, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
             })
         }
+    }*/
+    
+    public func toggle() {
+        let state = currentState.opposite
+        transitionAnimator = UIViewPropertyAnimator(duration: 1, dampingRatio: 1, animations: {
+            switch state {
+            case .open:
+                self.frame = CGRect(x: 0, y: self.PADDING, width: self.frame.width, height: self.frame.height)
+            case .closed:
+                self.frame = CGRect(x: self.frame.width * -1, y: self.PADDING, width: self.frame.width, height: self.frame.height)
+            }
+        })
+        transitionAnimator.addCompletion({ position in
+            switch position {
+            case .start:
+                self.currentState = state.opposite
+            case .end:
+                self.currentState = state
+            default:
+                break
+            }
+        })
+        transitionAnimator.startAnimation()
     }
     
 }
