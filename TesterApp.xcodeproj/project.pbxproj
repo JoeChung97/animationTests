@@ -22,6 +22,7 @@
 		83C5312426179F3C00FDEB8D /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 83C5312226179F3C00FDEB8D /* LaunchScreen.storyboard */; };
 		83C5312F26179F3C00FDEB8D /* TesterAppTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83C5312E26179F3C00FDEB8D /* TesterAppTests.swift */; };
 		83C5313A26179F3C00FDEB8D /* TesterAppUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83C5313926179F3C00FDEB8D /* TesterAppUITests.swift */; };
+		83C72A94263323F7004229F9 /* MenuTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83C72A93263323F7004229F9 /* MenuTableViewCell.swift */; };
 		83F635A426179F8B0038D3CE /* Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83F635A326179F8B0038D3CE /* Utils.swift */; };
 		83F635AC26179F930038D3CE /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83F635AB26179F930038D3CE /* User.swift */; };
 /* End PBXBuildFile section */
@@ -65,6 +66,7 @@
 		83C5313526179F3C00FDEB8D /* TesterAppUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TesterAppUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		83C5313926179F3C00FDEB8D /* TesterAppUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TesterAppUITests.swift; sourceTree = "<group>"; };
 		83C5313B26179F3C00FDEB8D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		83C72A93263323F7004229F9 /* MenuTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuTableViewCell.swift; sourceTree = "<group>"; };
 		83F635A326179F8B0038D3CE /* Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Utils.swift; sourceTree = "<group>"; };
 		83F635AB26179F930038D3CE /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -137,6 +139,7 @@
 		83C5311626179F3900FDEB8D /* TesterApp */ = {
 			isa = PBXGroup;
 			children = (
+				83C72A92263323C9004229F9 /* Cells */,
 				83292499262F754300BE21B8 /* Subclasses */,
 				830C709A26248D1600B8F56C /* Views */,
 				83F635A226179F830038D3CE /* Helpers */,
@@ -168,6 +171,14 @@
 				83C5313B26179F3C00FDEB8D /* Info.plist */,
 			);
 			path = TesterAppUITests;
+			sourceTree = "<group>";
+		};
+		83C72A92263323C9004229F9 /* Cells */ = {
+			isa = PBXGroup;
+			children = (
+				83C72A93263323F7004229F9 /* MenuTableViewCell.swift */,
+			);
+			path = Cells;
 			sourceTree = "<group>";
 		};
 		83F6359D26179F750038D3CE /* Models */ = {
@@ -326,6 +337,7 @@
 				83AC7594262A1D1B00E45897 /* Extensions.swift in Sources */,
 				83AC7599262A384800E45897 /* MenuButton.swift in Sources */,
 				830C709C26248D4200B8F56C /* SlideoutMenuView.swift in Sources */,
+				83C72A94263323F7004229F9 /* MenuTableViewCell.swift in Sources */,
 				83102CB12628C3E700A1CFBF /* LoadingView.swift in Sources */,
 				83F635A426179F8B0038D3CE /* Utils.swift in Sources */,
 				83102CAC26289C0B00A1CFBF /* PullUpMenuView.swift in Sources */,

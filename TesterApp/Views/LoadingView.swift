@@ -17,6 +17,15 @@ public class LoadingView: UIView {
     let CORNER_RADIUS: CGFloat = 10.0
     let PADDING: CGFloat = 10.0
     
+    private var topBar: UIView!
+    private var rightTopAngledBar: UIView!
+    private var rightBar: UIView!
+    private var rightBottomAngledBar: UIView!
+    private var bottomBar: UIView!
+    private var leftBottomAngledBar: UIView!
+    private var leftBar: UIView!
+    private var leftTopAngledBar: UIView!
+    
     public override func layoutSubviews() {
         
         //Prevents view from adding same views multiple times
@@ -27,7 +36,8 @@ public class LoadingView: UIView {
             self.layer.cornerRadius = CORNER_RADIUS
             //self.versionOne()
             //self.versionTwo()
-            self.versionThree()
+            //self.versionThree()
+            self.versionFour()
         }
         
     }
@@ -135,6 +145,94 @@ public class LoadingView: UIView {
             rightCircle.frame = CGRect(x: rightCircle.frame.minX, y: rightCircle.frame.minY + 20, width: wh, height: wh)
         }, completion: nil)
         
+    }
+    
+    private func versionFour() {
+        
+        let height = self.frame.height * 0.25
+        let x = (self.frame.width / 2) - (2.5 / 2)
+        let y: CGFloat = 10
+        topBar = UIView(frame: CGRect(x: x, y: y, width: 2.5, height: height))
+        topBar.backgroundColor = .blue
+        topBar.layer.cornerRadius = 2.5 / 2
+        self.addSubview(topBar)
+        
+        rightTopAngledBar = UIView(frame: CGRect(x: x + 8, y: y + 2.5, width: 2.5, height: height))
+        rightTopAngledBar.backgroundColor = .blue
+        rightTopAngledBar.layer.cornerRadius = 2.5 / 2
+        rightTopAngledBar.transform = CGAffineTransform(rotationAngle: CGFloat.pi / 4)
+        self.addSubview(rightTopAngledBar)
+        
+        rightBar = UIView(frame: CGRect(x: x + 10, y: y + 10, width: 2.5, height: height))
+        rightBar.backgroundColor = .blue
+        rightBar.layer.cornerRadius = 2.5 / 2
+        rightBar.transform = CGAffineTransform(rotationAngle: CGFloat.pi / 2)
+        self.addSubview(rightBar)
+        
+        rightBottomAngledBar = UIView(frame: CGRect(x: x + 8, y: y + 18, width: 2.5, height: height))
+        rightBottomAngledBar.backgroundColor = .blue
+        rightBottomAngledBar.layer.cornerRadius = 2.5 / 2
+        rightBottomAngledBar.transform = CGAffineTransform(rotationAngle: (3 * CGFloat.pi) / 4)
+        self.addSubview(rightBottomAngledBar)
+        
+        bottomBar = UIView(frame: CGRect(x: x, y: y + 21, width: 2.5, height: height))
+        bottomBar.backgroundColor = .blue
+        bottomBar.layer.cornerRadius = 2.5 / 2
+        self.addSubview(bottomBar)
+        
+        leftBottomAngledBar = UIView(frame: CGRect(x: x - 8, y: y + 18, width: 2.5, height: height))
+        leftBottomAngledBar.backgroundColor = .blue
+        leftBottomAngledBar.layer.cornerRadius = 2.5 / 2
+        leftBottomAngledBar.transform = CGAffineTransform(rotationAngle: (5 * CGFloat.pi) / 4)
+        self.addSubview(leftBottomAngledBar)
+        
+        leftBar = UIView(frame: CGRect(x: x - 10, y: y + 10, width: 2.5, height: height))
+        leftBar.backgroundColor = .blue
+        leftBar.layer.cornerRadius = 2.5 / 2
+        leftBar.transform = CGAffineTransform(rotationAngle: CGFloat.pi / 2)
+        self.addSubview(leftBar)
+        
+        leftTopAngledBar = UIView(frame: CGRect(x: x - 8, y: y + 2.5, width: 2.5, height: height))
+        leftTopAngledBar.backgroundColor = .blue
+        leftTopAngledBar.layer.cornerRadius = 2.5 / 2
+        leftTopAngledBar.transform = CGAffineTransform(rotationAngle: (7 * CGFloat.pi) / 4)
+        self.addSubview(leftTopAngledBar)
+        
+        beginAnimationChain()
+        
+    }
+    
+    func beginAnimationChain() {
+        let height = self.frame.height * 0.25
+        let x = (self.frame.width / 2) - (2.5 / 2)
+        let y: CGFloat = 10
+        
+        UIView.animate(withDuration: 0.5, delay: 0.0, options: [], animations: {
+            self.topBar.frame = CGRect(x: x, y: y - 5, width: 2.5, height: height)
+        }, completion: {_ in
+            UIView.animate(withDuration: 0.5, delay: 0.0, options: [], animations: {
+                self.topBar.frame = CGRect(x: x, y: y, width: 2.5, height: height)
+            }, completion: {_ in
+                self.animationStepTwo()
+            })
+        })
+    }
+    
+    func animationStepTwo() {
+        let height = self.frame.height * 0.25
+        let x = (self.frame.width / 2) - (2.5 / 2)
+        let y: CGFloat = 10
+        
+        UIView.animate(withDuration: 0.5, delay: 0.0, options: [], animations: {
+            self.rightTopAngledBar.transform = CGAffineTransform(translationX: -5, y: -5)
+        }, completion: {_ in
+            UIView.animate(withDuration: 0.5, delay: 0.0, options: [], animations: {
+                self.rightTopAngledBar.transform = CGAffineTransform(translationX: 5, y: 5)
+                //self.rightTopAngledBar.frame.
+            }, completion: {_ in
+                self.beginAnimationChain()
+            })
+        })
     }
     
 }

@@ -84,7 +84,7 @@ class ViewController: UIViewController {
     private func menuSetup() {
         menu = SlideoutMenuView(frame: CGRect(x: -250, y: 0, width: 250, height: UIScreen.main.bounds.height), elements: ["Home", "Profile", "Settings"])
         menu.delegate = self
-        self.view.addSubview(menu)
+        UIApplication.shared.windows.first?.addSubview(menu)
     }
     
     private func pullUpMenuSetup() {
@@ -114,7 +114,21 @@ class ViewController: UIViewController {
     
 }
 
+//MARK: SlideOutMenu Delegate Functions
+
 extension ViewController: SlideoutMenuDelegate {
+    
+    func signOutPressed() {
+        print("Sign Out Pressed!")
+    }
+    
+    func helpPressed() {
+        print("Help Pressed!")
+    }
+    
+    func becomeTechnicianPressed() {
+        print("Become Technician Pressed!")
+    }
     
     func menuItemSelected(index: Int) {
         print("Index Selected: " + String(index))
